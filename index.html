@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exam</title>
+    <script src="https://www.youtube.com/iframe_api"></script>
+    <style>
+        body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        margin: 0;
+        }
+
+        .video-container,
+        .game-container {
+        width: 90%; /* Cambia el porcentaje según tus necesidades */
+        max-width: 600px;
+        margin: 10px auto; /* Añade auto para centrar los contenedores */
+        }
+
+        h1 {
+            color: #0e010f;
+            margin: 0;
+        }
+
+        .player {
+            visibility: hidden;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            font-size: 16px;
+            margin: 15px;
+            margin-bottom: 10px;
+            border: none;
+            cursor: pointer;
+            border-radius: 10%;
+        }
+
+        button.active {
+            background-color: #ffcc00 !important;
+        }
+
+        .video-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 10px 0;
+        }
+
+        /* Ocultar múltiples botones */
+                #desilenciarBtn,
+                #silenciarBtn,
+                #disminuirVolumenBtn,
+                #aumentarVolumenBtn{
+            display: none;
+        }
+
+        /* Estilos específicos del etiquetado - juego .... para abajo... */
+        .video-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 10px 0;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif; /* Cambiado a Arial para un estilo escolar */
+            background-color: #d3ad05;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+            text-align: center;
+            color: #2c09f3;
+        }
+
+        .encabezado {
+            text-align: center;
+            margin-bottom: 20px;
+            background-color: #FFFFFF;
+            padding: 10px;
+            border-radius: 10px;
+            color: #2c09f3;
+
+            /* Ajusta el tamaño del contenedor del título según tus necesidades */
+            width: 250px; /* Porcentaje o valor en px */
+            max-width: 600px; /* Máximo ancho permitido */
+            margin: 0 auto; /* Centrar horizontalmente */
+        }       
+
+        .pregunta,
+        .opcion {
+            display: block;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            padding: 15px;
+            background-color: #fc0df0; /* Rosa claro */
+            border: 2px solid #ff1493; /* Rosa intenso */
+            border-radius: 10px;
+            color: #FFFFFF;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .opcion:hover {
+            background-color: #054585;
+        }
+
+        .opcion.deshabilitada {
+            cursor: not-allowed;
+            background-color: #a19f9f;
+        }
+
+        .pregunta {
+            margin-bottom: 20px;
+        }
+
+        .hueco {
+            display: inline-block;
+            padding: 5px;
+            min-width: 150px;
+            font-weight: bold;
+            background-color: #FFD700;
+            color: #69ffc6;
+            border: 2px solid #FF6347;
+            border-radius: 10px;
+        }
+
+        .hueco.correcto {
+            background-color: #98FB98;
+            color: #008000;
+        }
+
+        .hueco.incorrecto {
+            background-color: #FF6347;
+            color: white;
+        }
+
+        .contenedor-pregunta {
+            text-align: center;
+            background-color: #87CEEB; /* Cambia este color según tus preferencias */
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(245, 247, 247, 0.3);
+            margin-bottom: 20px;
+            margin-top: 20px;           
+            margin-left: 10px;
+            margin-right: 10px;
+
+            /* Ajusta el tamaño del contenedor de preguntas según tus necesidades */
+            width: 400px; /* Porcentaje o valor en px */
+            max-width: 600px; /* Máximo ancho permitido */
+            margin: 10px auto; /* Centrar horizontalmente */
+        }
+
+        .opcion {
+            display: block;
+            margin-top: 10px;
+            margin-bottom: 20px;            
+            padding: 15px;
+            background-color: #eb87eb; /* Cambia este color al azul claro que prefieras */
+            border: 2px solid #0804fc;
+            border-radius: 10px;
+            color: #FFFFFF;
+            cursor: pointer;
+            transition: background-color 0.3s;
+
+            /* Ajusta el tamaño de los contenedores de opciones según tus necesidades */
+            width: 200px; /* Porcentaje o valor en px */
+            max-width: 600px; /* Máximo ancho permitido */
+            margin: 10px auto; /* Centrar horizontalmente */
+        }
+
+        .opcion:hover {
+            background-color: #1E90FF;
+        }
+
+        .opcion.deshabilitada {
+            cursor: not-allowed;
+            background-color: #D3D3D3;
+        }
+
+        #nombre-container {
+            margin-top: 20px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        #nombre-input {
+            padding: 10px;
+            border: 10px solid #87CEFA;
+            border-radius: 10px;
+        }
+
+        #calificacion {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 20px;
+            font-weight: bold;
+            display: none;
+        }
+
+        #contenedor-final {
+            background-color: #FFFFFF;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            display: none;
+
+            /* Ajusta la altura y el ancho según tus necesidades */
+            width: 300px; /* Porcentaje o valor en px */
+            max-width: 600px; /* Máximo ancho permitido */
+            margin: 0 auto; /* Centrar horizontalmente */
+        }
+
+        #calificacion-final {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        #contenedor-adicional {
+            background-color: #FFD700;
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 10px;
+            display: none;
+        }
+
+        #texto-adicional {
+            color: #FF6347;
+            font-weight: bold;
+        }
+
+        #informacion-jugador-final {
+            margin-top: 40px;
+            text-align: left;
+            text-align: center;
+        }
+
+        #informacion-jugador-final span {
+            font-weight: bold;
+            color: #1E90FF;
+        }
+
+        #mostrarVideoBtn {        
+        font-size: 2vw; /* Cambia el tamaño según tus necesidades */
+        font-size: 20px; /* Ajusta el tamaño de la fuente según tus necesidades */
+        background-color: purple; /* Cambia el color de fondo según tus preferencias */
+        color: white; /* Cambia el color del texto según tus preferencias */
+        padding: 15px 30px; /* Ajusta el espacio interno del botón según tus necesidades */
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+    }
+    </style>
+</head>
+
+<body>
+
+    <!-- Contenedor del primer video y juego -->
+    <div class="video-container">
+        <div class="container">
+            <h1>Test</h1>
+
+
+
+            <!-- llenado de contenedor del juego -->
+            <div id="game-container">
+                <!-- Pegar el código del juego aquí -->
+
+                <div><!-- Encabezado -->
+                    <div class="encabezado">
+                        <h2>Instrucciones:</h2>
+                        <h3>1. Escribe tu nombre<p>2. Escucha el audio</p>3. Completa las frases
+                            de abajo dando clic en la respuesta correcta<p></p></h3>
+                    </div>
+
+                    <!-- Contenedor para escribir el nombre -->
+                    <div id="nombre-container">
+                        <label for="nombre-input">Escribe tu nombre:<p></label></p>
+                        <input type="text" id="nombre-input" placeholder="Tu nombre">
+                    </div>
+
+
+                    <!-- Hasta aqui llega el contenedor dedl titulo u jugador Botones de control del primer video -->
+            <button id="playPauseBtn" onclick="reproducirPausar(player)"><h3>Escucha el audio primero</h3><p>Da clic aquí</p></button>
+            <button id="aumentarVolumenBtn" onclick="aumentarVolumen(player)">Aumentar Volumen</button>
+            <button id="disminuirVolumenBtn" onclick="disminuirVolumen(player)">Disminuir Volumen</button>
+            <button id="silenciarBtn" onclick="silenciar(player)">Silenciar</button>
+            <button id="desilenciarBtn" onclick="desilenciar(player)">Desilenciar</button>
+
+                    <!-- llenado de contenedor de preguntas hacia abajo -->
+
+                        <div id="contenedor-preguntas">
+                                    <!-- Contenedor de la Pregunta 1 -->
+                                    <div class="contenedor-pregunta" id="pregunta1" data-respuesta="from a movie scene">
+                                        <div class="pregunta">
+                                            <p>She was more like a beauty queen <span class="hueco" onclick="llenarHueco(this)"></span>.</p>
+                                        </div>
+                                        <div class="opciones" id="opciones1">
+                                            <div class="opcion" onclick="seleccionarOpcion(this)">from a muvi sing</div>
+                                            <div class="opcion" onclick="seleccionarOpcion(this)">from a movie scene</div>
+                                            <div class="opcion" onclick="seleccionarOpcion(this)">for a movie scene</div>
+                                        </div>
+                                    </div>
+
+                                    <div class="contenedor-pregunta" id="pregunta2" data-respuesta="but what do you">
+                                        <div class="pregunta">
+                                            <p>I said: Don't mind, <span class="hueco" onclick="llenarHueco(this)"></span> mean: I am the one.</p>
+                                        </div>
+                                        <div class="opciones" id="opciones2">
+                                            <div class="opcion" onclick="seleccionarOpcion(this)">but want do you</div>
+                                            <div class="opcion" onclick="seleccionarOpcion(this)">boot wanna do you</div>
+                                            <div class="opcion" onclick="seleccionarOpcion(this)">but what do you</div>
+                                    </div>
+                                </div>
+                                <div class="contenedor-pregunta" id="pregunta3" data-respuesta="floor in the round?">
+                                    <div class="pregunta">
+                                        <p>Who will dance on the <span class="hueco" onclick="llenarHueco(this)"></span> .</p>
+                                    </div>
+                                    <div class="opciones" id="opciones3">
+                                        <div class="opcion" onclick="seleccionarOpcion(this)">floor on the round"</div>
+                                        <div class="opcion" onclick="seleccionarOpcion(this)">flour in the round!</div>
+                                        <div class="opcion" onclick="seleccionarOpcion(this)">floor in the round?</div>
+                                </div>  
+                            </div>
+                                <div class="contenedor-pregunta" id="pregunta4" data-respuesta="round">
+                                    <div class="pregunta">
+                                        <p>She said I am the one who will dance on the floor in the <span class="hueco" onclick="llenarHueco(this)"></span> .</p>
+                                    </div>
+                                    <div class="opciones" id="opciones3">
+                                        <div class="opcion" onclick="seleccionarOpcion(this)">round</div>
+                                        <div class="opcion" onclick="seleccionarOpcion(this)">raund</div>
+                                        <div class="opcion" onclick="seleccionarOpcion(this)">roung</div>
+                                </div>
+                            </div>
+
+                                <div class="contenedor-pregunta" id="pregunta5" data-respuesta="She told me her name">
+                                    <div class="pregunta">
+                                        <p>, <span class="hueco" onclick="llenarHueco(this)"></span> was Billie Jean, as she caused a scene.</p>
+                                    </div>
+                                    <div class="opciones" id="opciones3">
+                                        <div class="opcion" onclick="seleccionarOpcion(this)">She told me him name</div>
+                                        <div class="opcion" onclick="seleccionarOpcion(this)">She told me her name</div>
+                                        <div class="opcion" onclick="seleccionarOpcion(this)">She tall me her name</div>
+                                </div>
+                            </div>
+
+                            <!-- copia desde aqui para añedir preguntas, y no olvideds cambiar
+                            el numero de preguntas en el contador y en el resultado -->
+
+                            <div class="contenedor-pregunta" id="pregunta6" data-respuesta="of being the one">
+                                <div class="pregunta">
+                                    <p>Then every head turned with eyes that dreamed <span class="hueco" onclick="llenarHueco(this)"></span> .</p>
+                                </div>
+                                <div class="opciones" id="opciones3">
+                                    <div class="opcion" onclick="seleccionarOpcion(this)">of being the want</div>
+                                    <div class="opcion" onclick="seleccionarOpcion(this)">of bing the one</div>
+                                    <div class="opcion" onclick="seleccionarOpcion(this)">of being the one</div>
+                            </div>
+                        </div>
+
+                        <div class="contenedor-pregunta" id="pregunta7" data-respuesta="dance on">
+                            <div class="pregunta">
+                                <p>Who will <span class="hueco" onclick="llenarHueco(this)"></span> the floor in the round.</p>
+                            </div>
+                            <div class="opciones" id="opciones3">
+                                <div class="opcion" onclick="seleccionarOpcion(this)">dans on</div>
+                                <div class="opcion" onclick="seleccionarOpcion(this)">dance of</div>
+                                <div class="opcion" onclick="seleccionarOpcion(this)">dance on</div>
+                        </div>
+                    </div>
+
+                                    <!-- Aciertos y Calificación ............................................................................-->
+                                        <p>Aciertos: <span id="aciertos">0</span>/<span id="total">7</span></p>
+                                        <div id="calificacion">Calificación: <span id="porcentajeCalificacion">0%</span></div>
+
+                                    <!-- Contenedor final -->
+                                        <div id="contenedor-final">
+                                            <button id="mostrarVideoBtn" onclick="mostrarVideo()">Mostrar Video</button>
+                                    <!-- Contenido final -->
+                                        <div id="informacion-jugador-final">
+                                            <h3>Toma una captura y subela al sistema - Bill Jeans Michael Jackson -</h3>
+                                            <h2>Nombre:<span id="nombre-jugador-final"></span></h2>
+                                        </div>
+                                    <div id="calificacion-final"><span id="porcentajeCalificacionFinal">0%</span></div>
+                                </div>
+                            </div>
+
+            <!-- Hasta aqui llega el llenado de informacion del juego 
+                Contenedor del primer video - Importanticimo porque aqui 
+                esta el video 1 oculto -->
+            
+                <p>incorrectas: <span id="intentos">0</span></p>
+
+            <div id="player" class="player"></div>            
+        </div>        
+    </div>
+
+    <script>
+        // Variable global para almacenar el número de intentos
+        var intentos = 0;
+
+        // Variables para almacenar los reproductores de YouTube
+        var player;        
+
+        // Función llamada cuando se carga la API de YouTube
+        function onYouTubeIframeAPIReady() 
+        
+        {
+            // Crear el primer reproductor de YouTube
+            player = new YT.Player('player', {
+                height: '20',
+                width: '100',
+                videoId: 'cJYycHiUq7M', // Aqui se puede cambiar el ID del video...
+                events: {
+                    'onReady': onPlayerReady
+                }
+            });            
+        }
+
+        // Función llamada cuando el reproductor de YouTube está listo
+        function onPlayerReady(event) {
+            // Ocultar el contenedor del reproductor después de que la API de YouTube haya cargado
+                event.target.getIframe().style.visibility = 'hidden';
+
+            // Agregar un oyente para el evento onStateChange
+                event.target.addEventListener('onStateChange', function (event) {
+                if (event.data === YT.PlayerState.ENDED) {
+            // Cuando el video termina, mostrar el botón y ocultar el video
+                document.getElementById('player').style.visibility = 'hidden';
+                document.getElementById('mostrarVideoBtn').style.display = 'block';
+        }
+    });
+}
+
+
+
+        // ... (código del juego LLenado de datos hacia abajo) ...
+
+        let aciertos = 0;
+        let totalPreguntas = 0;
+
+        function actualizarContadores() {
+            document.getElementById('aciertos').innerText = aciertos;
+            document.getElementById('total').innerText = totalPreguntas;
+        }
+
+        function toggleOpciones(preguntaId, deshabilitar) {
+            const opciones = document.querySelectorAll(`#${preguntaId} .opcion`);
+            opciones.forEach(opcion => {
+                opcion.classList.toggle('deshabilitada', deshabilitar);
+            });
+        }
+
+        function llenarHueco(hueco) {
+    const preguntaId = hueco.closest('.contenedor-pregunta').id;
+    const respuestaColocada = document.getElementById(preguntaId).dataset.respuestaColocada === 'true';
+
+    if (!respuestaColocada) {
+        const data = hueco.innerText;
+
+        const respuestaCorrecta = document.getElementById(preguntaId).dataset.respuesta;
+        if (data === respuestaCorrecta) {
+            hueco.classList.remove('incorrecto');
+            hueco.classList.add('correcto');
+            aciertos++;
+        } else {
+            hueco.classList.remove('correcto');
+            hueco.classList.add('incorrecto');
+            intentos++; // Incrementar el contador de intentos en respuestas incorrectas
+        }
+
+        toggleOpciones(preguntaId, true);
+        document.getElementById(preguntaId).dataset.respuestaColocada = 'true';
+        deshabilitarOpciones(preguntaId);
+        totalPreguntas++;
+        actualizarContadores();
+
+        if (totalPreguntas === 7) {
+            // Mostrar el contenedor final........................................................................................
+            mostrarCalificacion();
+        }
+    }
+}
+
+        function seleccionarOpcion(opcion) {
+            const preguntaId = opcion.closest('.contenedor-pregunta').id;
+            const hueco = document.getElementById(preguntaId).querySelector('.hueco');
+            hueco.innerText = opcion.innerText;
+            llenarHueco(hueco);
+        }
+
+        function deshabilitarOpciones(preguntaId) {
+            const opciones = document.querySelectorAll(`#${preguntaId} .opcion`);
+            opciones.forEach(opcion => {
+                opcion.classList.add('deshabilitada');
+                opcion.onclick = null;
+            });
+        }
+
+        function mostrarCalificacion() {
+            const porcentaje = (aciertos / totalPreguntas) * 100;
+            const porcentajeRedondeado = Math.round(porcentaje * 10) / 10;
+
+            // Llenar el nombre del jugador en el contenedor final
+            const nombreJugador = document.getElementById('nombre-input').value || 'Jugador';
+            document.getElementById('nombre-jugador-final').innerText = nombreJugador;
+
+            // Mostrar calificación final
+            document.getElementById('porcentajeCalificacionFinal').innerText = "Calificación: " + porcentajeRedondeado + "%";
+
+            // Mostrar el contenedor final
+            document.getElementById('contenedor-final').style.display = 'block';
+
+            // Ocultar elementos que no deseas mostrar cuando se muestra el contenedor final
+            document.querySelectorAll('.encabezado').forEach(element => {
+                element.style.display = 'none';
+            });
+
+            document.querySelectorAll('.contenedor-pregunta').forEach(element => {
+                element.style.display = 'none';
+            });
+
+            document.getElementById('nombre-container').style.display = 'none';
+
+            document.querySelectorAll('button').forEach(button => {
+                button.style.display = 'none';
+            });
+
+            // Mostrar el botón para mostrar el video
+            document.getElementById('mostrarVideoBtn').style.display = 'block';
+
+            }
+
+
+
+        // Hasta aqui llega el llenado de juego - Funciones para controlar la reproducción y el audio - del primer video...
+        // Funciones para controlar la reproducción y el audio - del primer video...
+        function reproducirPausar(player) {
+            if (player.getPlayerState() == YT.PlayerState.PLAYING) {
+                player.pauseVideo();
+                player.seekTo(0); // Regresar al principio al pausar
+            } else {
+                player.playVideo();
+            }
+            updateButtonStyles(player);
+            updatePlayPauseButtonStyle(player);
+        }
+
+        // Nueva función para actualizar el estilo del botón play/stop
+        function updatePlayPauseButtonStyle(player) {
+            var playPauseBtn = document.getElementById('playPauseBtn');
+            
+            // Cambiar el color a morado cuando se hace clic
+            playPauseBtn.style.backgroundColor = '#800080'; // Morado en formato hexadecimal
+        }
+
+        function aumentarVolumen(player) {
+            player.setVolume(player.getVolume() + 10);
+            updateButtonStyles(player);
+        }
+
+        function disminuirVolumen(player) {
+            player.setVolume(player.getVolume() - 10);
+            updateButtonStyles(player);
+        }
+
+        function silenciar(player) {
+            player.mute();
+            updateButtonStyles(player);
+        }
+
+        function desilenciar(player) {
+            player.unMute();
+            updateButtonStyles(player);
+        }
+
+        // Función para actualizar los estilos de los botones
+        function updateButtonStyles(player) {
+            var playPauseBtn = document.getElementById('playPauseBtn');
+            var aumentarVolumenBtn = document.getElementById('aumentarVolumenBtn');
+            var disminuirVolumenBtn = document.getElementById('disminuirVolumenBtn');
+            var silenciarBtn = document.getElementById('silenciarBtn');
+            var desilenciarBtn = document.getElementById('desilenciarBtn');
+
+            // Restablecer todos los estilos a su estado predeterminado
+                playPauseBtn.classList.remove('active');
+                aumentarVolumenBtn.classList.remove('active');
+                disminuirVolumenBtn.classList.remove('active');
+                silenciarBtn.classList.remove('active');
+                desilenciarBtn.classList.remove('active');
+
+            // Aplicar estilos al botón activo actual
+            if (player.getPlayerState() == YT.PlayerState.PLAYING) {
+                playPauseBtn.classList.add('active');
+            } else if (player.getPlayerState() == YT.PlayerState.PAUSED) {
+                playPauseBtn.classList.remove('active');
+            }
+
+            if (player.isMuted()) {
+                silenciarBtn.classList.add('active');
+                desilenciarBtn.classList.remove('active');
+            } else {
+                silenciarBtn.classList.remove('active');
+                desilenciarBtn.classList.add('active');
+            }
+        }        
+
+        // Desplazar al inicio al cargar la página
+            window.onload = function () {
+            window.scrollTo(0, 0);
+        };
+
+        function actualizarContadores() {
+            document.getElementById('aciertos').innerText = aciertos;
+            document.getElementById('total').innerText = totalPreguntas;
+            document.getElementById('intentos').innerText = intentos; // Actualiza el contador de intentos
+        }
+
+        function mostrarVideo() {
+        // Mostrar el contenedor del reproductor después de hacer clic en el botón
+            document.getElementById('player').style.visibility = 'visible';
+
+        // Ocultar el botón para mostrar el video
+            document.getElementById('mostrarVideoBtn').style.display = 'none';
+
+        // Reproducir el video desde el principio
+            player.seekTo(0);
+            player.playVideo();
+        }
+
+        function onYouTubeIframeAPIReady() {
+        // Crear el primer reproductor de YouTube
+            player = new YT.Player('player', {
+                height: '300', // Ajusta la altura según tus necesidades
+                width: '300',  // Ajusta el ancho según tus necesidades
+                videoId: 'cJYycHiUq7M', // Aquí se puede cambiar el ID del video...
+                events: {
+            'onReady': onPlayerReady
+        }
+    });
+}
+    </script>
+    
+</body>
+
+</html>
